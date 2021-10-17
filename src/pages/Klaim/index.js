@@ -1,14 +1,21 @@
 import { Button, Layout, notification, Space, Table } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router";
 import { actionPrize, findAllPrize } from "../../redux";
 
 const { Content } = Layout;
 
 const Klaim = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.global);
+  const { isLogin } = useSelector((state) => state.profile);
   const [data, setData] = useState([]);
+
+  if (!isLogin) {
+    history.replace("/cms/login");
+  }
 
   useEffect(() => {
     const findAll = async () => {

@@ -36,7 +36,7 @@ const Login = () => {
       const result = await dispatch(loginEmailPassword(input));
       dispatch({ type: reducer.PROFILE, value: result });
       dispatch({ type: reducer.ISLOGIN, value: true });
-      history.replace("/cms/dashboard");
+      history.replace("/cms/klaim");
     } catch (e) {
       notification["error"]({
         message: "Gagal Login",
