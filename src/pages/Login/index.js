@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import {
   Button,
   ButtonToolbar,
@@ -12,6 +13,8 @@ import { Image } from "semantic-ui-react";
 import { ILLogo } from "../../assets";
 
 const Login = () => {
+  const history = useHistory();
+
   return (
     <div className="show-fake-browser login-page">
       <Container>
@@ -40,7 +43,12 @@ const Login = () => {
                   </Form.Group>
                   <Form.Group>
                     <ButtonToolbar>
-                      <Button appearance="primary">Login</Button>
+                      <Button
+                        appearance="primary"
+                        onClick={() => history.replace("/cms/klaim")}
+                      >
+                        Login
+                      </Button>
                     </ButtonToolbar>
                   </Form.Group>
                 </Form>
