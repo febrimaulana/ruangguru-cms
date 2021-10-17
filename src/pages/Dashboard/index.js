@@ -6,7 +6,7 @@ const { Content } = Layout;
 const Dashboard = () => {
   return (
     <Content style={{ margin: "0 16px" }}>
-      <h2>Dashbaord</h2>
+      <h1>Dashbaord</h1>
     </Content>
   );
 };
