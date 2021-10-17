@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import {
   Button,
@@ -10,10 +10,34 @@ import {
   Panel,
 } from "rsuite";
 import { Image } from "semantic-ui-react";
+import { notification } from "antd";
+import { useSelector, useDispatch } from "react-redux";
 import { ILLogo } from "../../assets";
+import { loginEmailPassword } from "../../redux";
+import { reducer } from "../../constants";
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state.global);
   const history = useHistory();
+  const [input, setInput] = useState({
+    email: "",
+    password: "",
+  });
+
+  const onMasuk = async () => {
+    try {
+      const result = await dispatch(loginEmailPassword(input));
+      dispatch({ type: reducer.PROFILE, value: result });
+      dispatch({ type: reducer.ISLOGIN, value: true });
+      history.replace("/cms/dashboard");
+    } catch (e) {
+      notification["error"]({
+        message: "Gagal Login",
+        description: e.message,
+      });
+    }
+  };
 
   return (
     <div className="show-fake-browser login-page">
@@ -30,8 +54,11 @@ const Login = () => {
               <Panel header={<h3>Login</h3>} bordered>
                 <Form fluid>
                   <Form.Group>
-                    <Form.ControlLabel>email address</Form.ControlLabel>
-                    <Form.Control name="name" />
+                    <Form.ControlLabel>Email Address</Form.ControlLabel>
+                    <Form.Control
+                      name="name"
+                      onChange={(value) => setInput({ ...input, email: value })}
+                    />
                   </Form.Group>
                   <Form.Group>
                     <Form.ControlLabel>Password</Form.ControlLabel>
@@ -39,13 +66,17 @@ const Login = () => {
                       name="password"
                       type="password"
                       autoComplete="off"
+                      onChange={(value) =>
+                        setInput({ ...input, password: value })
+                      }
                     />
                   </Form.Group>
                   <Form.Group>
                     <ButtonToolbar>
                       <Button
                         appearance="primary"
-                        onClick={() => history.replace("/cms/klaim")}
+                        onClick={onMasuk}
+                        loading={loading}
                       >
                         Login
                       </Button>
