@@ -1,6 +1,7 @@
 import { DesktopOutlined, PieChartOutlined } from "@ant-design/icons";
 import { Button, Image, Layout, Menu } from "antd";
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import {
   BrowserRouter as Router,
   Redirect,
@@ -14,6 +15,7 @@ import { Dashboard, Klaim, Login } from "../pages";
 const { Footer, Sider } = Layout;
 
 const Routing = () => {
+  const { isLogin } = useSelector((state) => state.profile);
   const [collapsed, setCollapsed] = useState(false);
   const onCollapse = (collapsed) => {
     console.log(collapsed);
@@ -22,7 +24,11 @@ const Routing = () => {
   return (
     <Router>
       <Switch>
-        <Redirect exact from="/" to="/cms/login" />
+        <Redirect
+          exact
+          from="/"
+          to={isLogin ? "/cms/dashboard" : "/cms/login"}
+        />
         <Route path="/cms/login" component={Login} />
         <Layout style={{ minHeight: "100vh" }}>
           <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>

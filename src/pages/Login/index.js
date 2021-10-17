@@ -17,6 +17,7 @@ import { loginEmailPassword } from "../../redux";
 import { reducer } from "../../constants";
 
 const Login = () => {
+  const { isLogin } = useSelector((state) => state.profile);
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.global);
   const history = useHistory();
@@ -24,6 +25,11 @@ const Login = () => {
     email: "",
     password: "",
   });
+
+  if (isLogin) {
+    history.goBack();
+    return;
+  }
 
   const onMasuk = async () => {
     try {
