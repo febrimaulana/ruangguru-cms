@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { actionPrize, findAllPrize } from "../../redux";
+import swal from "sweetalert";
 
 const { Content } = Layout;
 
@@ -35,15 +36,24 @@ const Klaim = () => {
 
   const onDelivery = async (data) => {
     try {
-      const result = await dispatch(
-        actionPrize({ id: data.id, status: "delivery" })
-      );
-      const value = await dispatch(findAllPrize());
-      setData(value);
-      notification["success"]({
-        message: "Success",
-        description: result.message,
+      const check = await swal({
+        title: "Apa anda yakin ?",
+        text: "Status order akan berubah manjadi delivery",
+        icon: "warning",
+        buttons: true,
       });
+
+      if (check) {
+        const result = await dispatch(
+          actionPrize({ id: data.id, status: "delivery" })
+        );
+        const value = await dispatch(findAllPrize());
+        setData(value);
+        notification["success"]({
+          message: "Success",
+          description: result.message,
+        });
+      }
     } catch (e) {
       notification["error"]({
         message: "Gagal Login",
@@ -54,15 +64,23 @@ const Klaim = () => {
 
   const onRejected = async (data) => {
     try {
-      const result = await dispatch(
-        actionPrize({ id: data.id, status: "rejected" })
-      );
-      const value = await dispatch(findAllPrize());
-      setData(value);
-      notification["success"]({
-        message: "Success",
-        description: result.message,
+      const check = await swal({
+        title: "Apa anda yakin ?",
+        text: "Status order akan berubah manjadi rejected",
+        icon: "warning",
+        buttons: true,
       });
+      if (check) {
+        const result = await dispatch(
+          actionPrize({ id: data.id, status: "rejected" })
+        );
+        const value = await dispatch(findAllPrize());
+        setData(value);
+        notification["success"]({
+          message: "Success",
+          description: result.message,
+        });
+      }
     } catch (e) {
       notification["error"]({
         message: "Gagal Login",
